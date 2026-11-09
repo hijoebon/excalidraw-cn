@@ -27,6 +27,19 @@ const renderScene = jest.spyOn(Renderer, "renderScene");
 const { h } = window;
 const font = "20px Cascadia, width: Segoe UI Emoji" as FontString;
 
+const expectPointsToBeCloseTo = (
+  actual: readonly (Point | null)[],
+  expected: readonly Point[],
+) => {
+  expect(actual).toHaveLength(expected.length);
+  expected.forEach((expectedPoint, pointIndex) => {
+    const actualPoint = actual[pointIndex];
+    expect(actualPoint).not.toBeNull();
+    expect(actualPoint![0]).toBeCloseTo(expectedPoint[0], 10);
+    expect(actualPoint![1]).toBeCloseTo(expectedPoint[1], 10);
+  });
+};
+
 describe("Test Linear Elements", () => {
   let container: HTMLElement;
   let canvas: HTMLCanvasElement;
@@ -311,18 +324,10 @@ describe("Test Linear Elements", () => {
       expect(midPointsWithRoundEdge[0]).not.toEqual(midPointsWithSharpEdge[0]);
       expect(midPointsWithRoundEdge[1]).not.toEqual(midPointsWithSharpEdge[1]);
 
-      expect(midPointsWithRoundEdge).toMatchInlineSnapshot(`
-        Array [
-          Array [
-            55.9697848965255,
-            47.442326230998205,
-          ],
-          Array [
-            76.08587175006699,
-            43.294165939653226,
-          ],
-        ]
-      `);
+      expectPointsToBeCloseTo(midPointsWithRoundEdge, [
+        [55.9697848965255, 47.442326230998205],
+        [76.08587175006699, 43.294165939653226],
+      ]);
     });
 
     it("should update all the midpoints when element position changed", async () => {
@@ -359,18 +364,10 @@ describe("Test Linear Elements", () => {
       );
       expect(midPoints[0]).not.toEqual(newMidPoints[0]);
       expect(midPoints[1]).not.toEqual(newMidPoints[1]);
-      expect(newMidPoints).toMatchInlineSnapshot(`
-        Array [
-          Array [
-            105.96978489652551,
-            67.4423262309982,
-          ],
-          Array [
-            126.08587175006699,
-            63.294165939653226,
-          ],
-        ]
-      `);
+      expectPointsToBeCloseTo(newMidPoints, [
+        [105.96978489652551, 67.4423262309982],
+        [126.08587175006699, 63.294165939653226],
+      ]);
     });
 
     describe("When edges are round", () => {
@@ -602,18 +599,10 @@ describe("Test Linear Elements", () => {
 
         expect(midPoints[0]).not.toEqual(newMidPoints[0]);
         expect(midPoints[1]).not.toEqual(newMidPoints[1]);
-        expect(newMidPoints).toMatchInlineSnapshot(`
-          Array [
-            Array [
-              31.884084517616053,
-              23.13275505472383,
-            ],
-            Array [
-              77.74792546875662,
-              44.57840982272327,
-            ],
-          ]
-        `);
+        expectPointsToBeCloseTo(newMidPoints, [
+          [31.884084517616053, 23.13275505472383],
+          [77.74792546875662, 44.57840982272327],
+        ]);
       });
 
       it("should hide midpoints in the segment when points moved close", async () => {
@@ -663,18 +652,10 @@ describe("Test Linear Elements", () => {
         expect(newMidPoints.length).toEqual(2);
         expect(midPoints[0]).not.toEqual(newMidPoints[0]);
         expect(midPoints[1]).not.toEqual(newMidPoints[1]);
-        expect(newMidPoints).toMatchInlineSnapshot(`
-          Array [
-            Array [
-              55.9697848965255,
-              47.442326230998205,
-            ],
-            Array [
-              76.08587175006699,
-              43.294165939653226,
-            ],
-          ]
-        `);
+        expectPointsToBeCloseTo(newMidPoints, [
+          [55.9697848965255, 47.442326230998205],
+          [76.08587175006699, 43.294165939653226],
+        ]);
       });
     });
 

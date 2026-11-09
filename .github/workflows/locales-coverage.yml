@@ -8,16 +8,19 @@ on:
 jobs:
   locales:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.PUSH_TRANSLATIONS_COVERAGE_PAT }}
 
-      - name: Setup Node.js 14.x
-        uses: actions/setup-node@v2
+      - name: Setup Node.js 24.x
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 14.x
+          node-version: 24.x
 
       - name: Create report file
         run: |
@@ -37,10 +40,10 @@ jobs:
           body="${body//'%'/'%25'}"
           body="${body//$'\n'/'%0A'}"
           body="${body//$'\r'/'%0D'}"
-          echo ::set-output name=body::$body
+          echo "body=$body" >> "$GITHUB_OUTPUT"
 
       - name: Update description with coverage
-        uses: kt3k/update-pr-description@v1.0.1
+        uses: kt3k/update-pr-description@46409be4b4fb57502e7a0c40a317d79b21a548dd # v2.1.1
         with:
           pr_body: ${{ steps.getCommentBody.outputs.body }}
           pr_title: "chore: Update translations from Crowdin"

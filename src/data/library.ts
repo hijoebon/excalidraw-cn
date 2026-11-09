@@ -84,7 +84,7 @@ class Library {
     return this.updateQueue[this.updateQueue.length - 1];
   };
 
-  private notifyListeners = () => {
+  private notifyListeners = async () => {
     if (this.updateQueue.length > 0) {
       jotaiStore.set(libraryItemsAtom, {
         status: "loading",
@@ -99,11 +99,12 @@ class Library {
         isInitialized: this.isInitialized,
       });
       try {
-        this.app.props.onLibraryChange?.(
+        await this.app.props.onLibraryChange?.(
           cloneLibraryItems(this.lastLibraryItems),
         );
       } catch (error) {
         console.error(error);
+        throw error;
       }
     }
   };
@@ -233,7 +234,7 @@ class Library {
       })
       .finally(() => {
         this.updateQueue = this.updateQueue.filter((_task) => _task !== task);
-        this.notifyListeners();
+        return this.notifyListeners();
       });
 
     this.updateQueue.push(task);

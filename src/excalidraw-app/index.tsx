@@ -77,6 +77,7 @@ import { newElementWith } from "../element/mutateElement";
 import { isInitializedImageElement } from "../element/typeChecks";
 import { loadFilesFromFirebase } from "./data/firebase";
 import { LocalData } from "./data/LocalData";
+import { saveLibraryItemsToStorage } from "./data/libraryStorage";
 import { isBrowserStorageStateNewer } from "./data/tabSync";
 import clsx from "clsx";
 import { atom, Provider, useAtom } from "jotai";
@@ -597,12 +598,12 @@ const ExcalidrawWrapper = () => {
   };
 
   const onLibraryChange = async (items: LibraryItems) => {
-    if (!items.length) {
-      localStorage.removeItem(STORAGE_KEYS.LOCAL_STORAGE_LIBRARY);
-      return;
+    try {
+      await saveLibraryItemsToStorage(items);
+    } catch (error: any) {
+      setErrorMessage(error?.message || t("alerts.errorAddingToLibrary"));
+      throw error;
     }
-    const serializedItems = JSON.stringify(items);
-    localStorage.setItem(STORAGE_KEYS.LOCAL_STORAGE_LIBRARY, serializedItems);
   };
 
   return (

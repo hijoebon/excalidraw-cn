@@ -6,7 +6,7 @@ import {
 } from "../../appState";
 import { clearElementsForLocalStorage } from "../../element";
 import { STORAGE_KEYS } from "../app_constants";
-import { ImportedDataState } from "../../data/types";
+import { loadLibraryItemsFromStorage } from "./libraryStorage";
 
 export const saveUsernameToLocalStorage = (username: string) => {
   try {
@@ -94,30 +94,24 @@ export const getTotalStorageSize = () => {
     const appState = localStorage.getItem(STORAGE_KEYS.LOCAL_STORAGE_APP_STATE);
     const collab = localStorage.getItem(STORAGE_KEYS.LOCAL_STORAGE_COLLAB);
     const library = localStorage.getItem(STORAGE_KEYS.LOCAL_STORAGE_LIBRARY);
+    const librarySize = localStorage.getItem(
+      STORAGE_KEYS.LOCAL_STORAGE_LIBRARY_SIZE,
+    );
 
     const appStateSize = appState?.length || 0;
     const collabSize = collab?.length || 0;
-    const librarySize = library?.length || 0;
+    const savedLibrarySize = Number(librarySize) || library?.length || 0;
 
-    return appStateSize + collabSize + librarySize + getElementsStorageSize();
+    return (
+      appStateSize + collabSize + savedLibrarySize + getElementsStorageSize()
+    );
   } catch (error: any) {
     console.error(error);
     return 0;
   }
 };
 
-export const getLibraryItemsFromStorage = () => {
-  try {
-    const libraryItems: ImportedDataState["libraryItems"] = JSON.parse(
-      localStorage.getItem(STORAGE_KEYS.LOCAL_STORAGE_LIBRARY) as string,
-    );
-
-    return libraryItems || [];
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-};
+export const getLibraryItemsFromStorage = loadLibraryItemsFromStorage;
 
 export const setContainerIdToStorage = (id: string) => {
   if (id) {

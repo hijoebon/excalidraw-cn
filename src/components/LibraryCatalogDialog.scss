@@ -1,0 +1,196 @@
+.excalidraw {
+  .LibraryCatalogDialog .Modal__content {
+    width: min(900px, calc(100vw - 2rem));
+  }
+
+  .library-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-height: min(72vh, 760px);
+    min-height: 360px;
+    color: var(--text-primary-color);
+
+    button {
+      cursor: pointer;
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    &__intro {
+      margin: 0;
+      color: var(--color-gray-70);
+      font-size: 0.875rem;
+    }
+
+    &__toolbar,
+    &__selection,
+    &__filters,
+    &__footer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    &__toolbar input {
+      flex: 1;
+      min-width: 0;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--input-border-color);
+      border-radius: var(--border-radius-md);
+      color: var(--text-primary-color);
+      background: var(--input-bg-color);
+    }
+
+    &__toolbar button,
+    &__selection button,
+    &__filters button,
+    &__footer button,
+    &__more {
+      border: 1px solid var(--sidebar-border-color);
+      border-radius: var(--border-radius-md);
+      padding: 0.5rem 0.7rem;
+      color: var(--text-primary-color);
+      background: var(--island-bg-color);
+    }
+
+    &__filters button[aria-pressed="true"] {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    &__selection {
+      justify-content: space-between;
+      font-size: 0.8rem;
+
+      div {
+        display: flex;
+        gap: 0.4rem;
+      }
+    }
+
+    &__list {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-right: 0.25rem;
+    }
+
+    &__card {
+      display: grid;
+      grid-template-columns: auto 64px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem;
+      border: 1px solid var(--sidebar-border-color);
+      border-radius: var(--border-radius-md);
+
+      img {
+        width: 64px;
+        height: 64px;
+        object-fit: contain;
+        background: var(--color-gray-10);
+        border-radius: var(--border-radius-md);
+      }
+    }
+
+    &__details {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 0.2rem;
+
+      strong,
+      span,
+      small {
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      span,
+      small {
+        color: var(--color-gray-60);
+        font-size: 0.75rem;
+      }
+
+      p {
+        margin: 0.1rem 0;
+        color: var(--color-gray-70);
+        font-size: 0.8rem;
+      }
+    }
+
+    &__favorite {
+      width: 2.25rem;
+      height: 2.25rem;
+      border: 0;
+      color: var(--color-primary);
+      background: transparent;
+      font-size: 1.6rem;
+    }
+
+    &__status,
+    &__error {
+      padding: 0.6rem;
+      border-radius: var(--border-radius-md);
+      font-size: 0.8rem;
+    }
+
+    &__status {
+      background: var(--color-gray-10);
+    }
+
+    &__error {
+      color: var(--color-danger);
+      background: rgba(219, 105, 101, 0.12);
+    }
+
+    &__footer {
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--sidebar-border-color);
+
+      button:last-child {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+      }
+    }
+
+    &__more {
+      align-self: center;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .library-catalog {
+      max-height: calc(100vh - 7rem);
+      min-height: 0;
+
+      &__card {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+
+      &__card img {
+        display: none;
+      }
+
+      &__selection,
+      &__toolbar,
+      &__filters,
+      &__footer {
+        flex-wrap: wrap;
+      }
+
+      &__selection {
+        justify-content: flex-start;
+      }
+    }
+  }
+}

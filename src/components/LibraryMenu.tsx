@@ -32,6 +32,7 @@ import { getSelectedElements } from "../scene";
 import { NonDeletedExcalidrawElement } from "../element/types";
 import { LibraryMenuHeader } from "./LibraryMenuHeaderContent";
 import LibraryMenuBrowseButton from "./LibraryMenuBrowseButton";
+import { LibraryCatalogDialog } from "./LibraryCatalogDialog";
 
 const useOnClickOutside = (
   ref: RefObject<HTMLElement>,
@@ -96,6 +97,7 @@ export const LibraryMenuContent = ({
   onSelectItems: (id: LibraryItem["id"][]) => void;
 }) => {
   const [libraryItemsData] = useAtom(libraryItemsAtom, jotaiScope);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
   const addToLibrary = useCallback(
     async (elements: LibraryItem["elements"], libraryItems: LibraryItems) => {
@@ -157,6 +159,19 @@ export const LibraryMenuContent = ({
         libraryReturnUrl={libraryReturnUrl}
         theme={appState.theme}
       />
+      <button
+        className="library-menu-browse-button library-menu-manager-button"
+        type="button"
+        onClick={() => setIsCatalogOpen(true)}
+      >
+        Instalar varias bibliotecas
+      </button>
+      {isCatalogOpen && (
+        <LibraryCatalogDialog
+          library={library}
+          onClose={() => setIsCatalogOpen(false)}
+        />
+      )}
       {showBtn && (
         <LibraryMenuBrowseButton
           id={id}

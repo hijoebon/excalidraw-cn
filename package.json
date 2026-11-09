@@ -43,7 +43,7 @@
     "jotai": "1.6.4",
     "lodash.throttle": "4.1.1",
     "moment": "2.29.4",
-    "nanoid": "3.3.3",
+    "nanoid": "3.3.18",
     "open-color": "1.9.1",
     "pako": "1.0.11",
     "perfect-freehand": "1.2.0",
@@ -94,7 +94,7 @@
     "rewire": "6.0.0"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "24.x"
   },
   "homepage": ".",
   "jest": {
@@ -134,5 +134,8 @@
     "prerelease": "node scripts/prerelease.js",
     "release": "node scripts/release.js"
   },
-  "repository": "git@github.com:korbinzhao/handraw.git"
+  "repository": "git@github.com:korbinzhao/handraw.git",
+  "resolutions": {
+    "nanoid": "3.3.18"
+  }
 }
